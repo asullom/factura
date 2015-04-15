@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from rest_framework import serializers, viewsets
+from rest_framework import serializers, viewsets, permissions
+from oauth2_provider.ext.rest_framework import TokenHasReadWriteScope, \
+    TokenHasScope
 
 from .models import Cliente
 # Create your views here.
@@ -15,6 +17,9 @@ class ClienteSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ClienteViewSet(viewsets.ModelViewSet):
+
+    permission_classes = [permissions.IsAuthenticated]
+    #required_scopes = ['groups']
     queryset = Cliente.objects.all()
     serializer_class = ClienteSerializer
 
